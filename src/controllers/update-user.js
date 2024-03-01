@@ -1,7 +1,14 @@
-import { badRequest, ok, serverError } from './helpers.js'
+import { badRequest, ok, serverError } from './helpers/http.js'
 import validator from 'validator'
 import { UpdateUserUseCase } from '../use-cases/update-user.js'
 import { EmailAlreadyInUseError } from '../errors/user.js'
+import {
+    emailIsAlreayInUseResponse,
+    invalidPasswordResponse,
+    invalidIdResponse,
+    checkIfPasswordIsValid,
+    checkIfEmailIsValid,
+} from './helpers/user.js'
 
 export class UpdateUserController {
     async execute(httpRequest) {
@@ -10,9 +17,7 @@ export class UpdateUserController {
 
             const isUuid = validator.isUUID(httpRequest.params.userId)
             if (!isUuid) {
-                return badRequest({
-                    message: 'The provided id is not valid.',
-                })
+                return invalidIdResponse()
             }
 
             const updateUserParams = httpRequest.body
@@ -35,21 +40,20 @@ export class UpdateUserController {
             }
 
             if (updateUserParams.password) {
-                const passwordIsValid = updateUserParams.password.length >= 6
+                const passwordIsValid = checkIfPasswordIsValid(
+                    updateUserParams.password,
+                )
 
                 if (!passwordIsValid) {
-                    return badRequest({
-                        message: 'Password must be at least 6 characters.',
-                    })
+                    return invalidPasswordResponse()
                 }
             }
 
             if (updateUserParams.email) {
-                const emailIsValid = validator.isEmail(updateUserParams.email)
+                const emailIsValid = checkIfEmailIsValid(updateUserParams.email)
+
                 if (!emailIsValid) {
-                    return badRequest({
-                        message: 'Invalid e-mail. Please provide a valid one.',
-                    })
+                    return emailIsAlreayInUseResponse()
                 }
             }
 
