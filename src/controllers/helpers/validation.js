@@ -9,6 +9,12 @@ export const invalidIdResponse = () => {
     })
 }
 
+export const requiredFieldMissingResponse = (fields) => {
+    return badRequest({
+        message: `The field(s) ${fields.join(', ')} is required`,
+    })
+}
+
 export const checkIfIsString = (value) => typeof value === 'string'
 
 export const validateRequiredFields = (params, requiredFields) => {
