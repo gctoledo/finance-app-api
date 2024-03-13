@@ -1,6 +1,6 @@
 import { userNotFoundResponse } from '../../controllers/helpers/index.js'
 
-export class GetTransactionsByUserId {
+export class GetTransactionsByUserIdUseCase {
     constructor(getTransactionsByUserIdRepository, getUserByUserIdRepository) {
         ;(this.getTransactionsByUserIdRepository =
             getTransactionsByUserIdRepository),
@@ -8,7 +8,6 @@ export class GetTransactionsByUserId {
     }
 
     async execute(params) {
-        //VALIDAR SE O USUARIO EXISTE
         const user = await this.getUserByUserIdRepository.execute(params.userId)
 
         if (!user) {
