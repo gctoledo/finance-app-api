@@ -18,7 +18,7 @@ export class DeleteTransactionController {
                 return invalidIdResponse()
             }
 
-            const transaction = this.deleteTransactionUseCase.execute(
+            const transaction = await this.deleteTransactionUseCase.execute(
                 httpRequest.params.transactionId,
             )
 
