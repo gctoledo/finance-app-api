@@ -3,8 +3,8 @@ import { v4 as uuidv4 } from 'uuid'
 
 export class CreateTransactionUseCase {
     constructor(createTransactionRepository, getUserByIdRepository) {
-        ;(this.createTransactionRepository = createTransactionRepository),
-            (this.getUserByIdRepository = getUserByIdRepository)
+        this.createTransactionRepository = createTransactionRepository
+        this.getUserByIdRepository = getUserByIdRepository
     }
     async execute(createTransactionParams) {
         const userId = createTransactionParams.user_id

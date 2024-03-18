@@ -3,8 +3,8 @@ import { EmailAlreadyInUseError } from '../../errors/user.js'
 
 export class UpdateUserUseCase {
     constructor(getUserByEmailRepository, updateUserRepository) {
-        ;(this.getUserByEmailRepository = getUserByEmailRepository),
-            (this.updateUserRepository = updateUserRepository)
+        this.getUserByEmailRepository = getUserByEmailRepository
+        this.updateUserRepository = updateUserRepository
     }
     async execute(userId, updateUserParams) {
         if (updateUserParams.email) {
