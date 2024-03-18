@@ -33,7 +33,7 @@ export class UpdateTransactionController {
 
             if (someFieldIsNotAllowed) {
                 return badRequest({
-                    message: 'SOme provided field is not allowed.',
+                    message: 'Some provided field is not allowed.',
                 })
             }
 
