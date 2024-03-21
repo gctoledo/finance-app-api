@@ -1,10 +1,8 @@
+import { ZodError } from 'zod'
 import { EmailAlreadyInUseError } from '../../errors/user.js'
+import { updateUserSchema } from '../../schemas/index.js'
 import {
-    emailIsAlreayInUseResponse,
-    invalidPasswordResponse,
     invalidIdResponse,
-    checkIfPasswordIsValid,
-    checkIfEmailIsValid,
     checkIfIdIsValid,
     badRequest,
     ok,
@@ -26,40 +24,7 @@ export class UpdateUserController {
 
             const updateUserParams = httpRequest.body
 
-            const allowedFields = [
-                'first_name',
-                'last_name',
-                'email',
-                'password',
-            ]
-
-            const someFieldIsNotAllowed = Object.keys(updateUserParams).some(
-                (field) => !allowedFields.includes(field),
-            )
-
-            if (someFieldIsNotAllowed) {
-                return badRequest({
-                    message: 'Some provided field is not allowed.',
-                })
-            }
-
-            if (updateUserParams.password) {
-                const passwordIsValid = checkIfPasswordIsValid(
-                    updateUserParams.password,
-                )
-
-                if (!passwordIsValid) {
-                    return invalidPasswordResponse()
-                }
-            }
-
-            if (updateUserParams.email) {
-                const emailIsValid = checkIfEmailIsValid(updateUserParams.email)
-
-                if (!emailIsValid) {
-                    return emailIsAlreayInUseResponse()
-                }
-            }
+            await updateUserSchema.parseAsync(updateUserParams)
 
             const updatedUser = await this.updateUserUseCase.execute(
                 userId,
@@ -68,6 +33,10 @@ export class UpdateUserController {
 
             return ok(updatedUser)
         } catch (err) {
+            if (err instanceof ZodError) {
+                return badRequest({ message: err.errors[0].message })
+            }
+
             if (err instanceof EmailAlreadyInUseError) {
                 return badRequest({ message: err.message })
             }
