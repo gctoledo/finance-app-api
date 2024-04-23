@@ -49,7 +49,7 @@ Clone o projeto
 Entre no diretório do projeto
 
 ```
-  cd my-project
+  cd finance-app-api
 ```
 
 Instale as dependências
