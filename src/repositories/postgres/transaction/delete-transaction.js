@@ -1,12 +1,15 @@
-import { PostgresHelper } from '../../../db/postgres/helper.js'
+import { prisma } from '../../../../prisma/prisma.js'
 
 export class PostgresDeleteTransactionRepository {
     async execute(transactionId) {
-        const deletedTransaction = await PostgresHelper.query(
-            'DELETE from transactions WHERE id = $1 RETURNING *',
-            [transactionId],
-        )
-
-        return deletedTransaction[0]
+        try {
+            return await prisma.transaction.delete({
+                where: {
+                    id: transactionId,
+                },
+            })
+        } catch (err) {
+            return null
+        }
     }
 }
