@@ -4,9 +4,9 @@ Projeto de um dashboard financeiro para organização das finanças, onde o usu�
 
 ## 🔥 Introdução
 
-O projeto consiste em um dashboard financeiro, como citado anteriormente. Nele tentei ao máximo seguir os princípios de SOLID, utilizando Clean Architecture, dividindo o projeto em camadas e suas funções, sendo elas os Controllers (responsáveis por receber e responder as requisições), Use Cases (responsáveis pelas regras de negócio) e Repositories (responsáveis pela comunicação com o banco de dados), facilitando assim a manutenção, legibilidade e teste do código. Todos os dados ficam armazenados em um banco de dados PostgreSQL e toda a comunicação com o banco de dados fica responsável pelos Repositories, que são feitos manualmente utilizando SQL, sem o uso de ORM. Esse repositório contém o back-end do projeto, onde criei uma API REST em que as rotas foram criadas utilizando Express com Node.js.
+O projeto consiste em um dashboard financeiro, como citado anteriormente. Nele tentei ao máximo seguir os princípios de SOLID, utilizando Clean Architecture, dividindo o projeto em camadas e suas funções, sendo elas os Controllers (responsáveis por receber e responder as requisições), Use Cases (responsáveis pelas regras de negócio) e Repositories (responsáveis pela comunicação com o banco de dados), facilitando assim a manutenção, legibilidade e teste do código. Todos os dados ficam armazenados em um banco de dados PostgreSQL e toda a comunicação com o banco de dados fica responsável pelo Prisma ORM. Esse repositório contém o back-end do projeto, onde criei uma API REST em que as rotas foram criadas utilizando Express com Node.js.
 
-O projeto também possui uma branch onde é feito a migração do projeto sem ORM para um projeto utilizando Prisma.
+O projeto também possui uma branch onde deixei a versão do projeto antes da migração para o Prisma, para fins didáticos.
 
 #
 
