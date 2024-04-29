@@ -21,6 +21,6 @@ export const ok = (body) => ({
 })
 
 export const notFound = (body) => ({
-    statusCode: 400,
+    statusCode: 404,
     body,
 })
