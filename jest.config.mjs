@@ -7,6 +7,7 @@
 const config = {
     coverageDirectory: 'coverage',
     coverageProvider: 'v8',
+    watchPathIgnorePatterns: ['/node_modules/', '/.postgres-data/'],
 }
 
 export default config
