@@ -82,4 +82,18 @@ describe('UpdateUserController', () => {
         //assert
         expect(result.statusCode).toBe(400)
     })
+
+    it('should return 400 when an unallowed field is provided', async () => {
+        //arrange
+        const { updateUserController } = makeSut()
+
+        //act
+        const result = await updateUserController.execute({
+            params: httpRequest.params,
+            body: { ...httpRequest.body, unallowed_field: 'unallowed_value' },
+        })
+
+        //assert
+        expect(result.statusCode).toBe(400)
+    })
 })
