@@ -33,4 +33,17 @@ describe('GetUserBalanceController', () => {
         //assert
         expect(result.statusCode).toBe(200)
     })
+
+    it('should return 400 when user id is invalid', async () => {
+        //arrange
+        const { getUserBalanceController } = makeSut()
+
+        //act
+        const result = await getUserBalanceController.execute({
+            params: { userId: 'invalid_id' },
+        })
+
+        //assert
+        expect(result.statusCode).toBe(400)
+    })
 })
