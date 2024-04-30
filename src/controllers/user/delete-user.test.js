@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 
 describe('DeleteUserController', () => {
     class DeleteUserUseCaseStub {
-        execute() {
+        async execute() {
             return {
                 id: faker.string.uuid(),
                 first_name: faker.person.firstName(),
@@ -55,7 +55,7 @@ describe('DeleteUserController', () => {
         // arrange
         const { deleteUserController, deleteUserUseCase } = makeSut()
 
-        jest.spyOn(deleteUserUseCase, 'execute').mockReturnValueOnce(null)
+        jest.spyOn(deleteUserUseCase, 'execute').mockResolvedValue(null)
 
         // act
         const result = await deleteUserController.execute(httpRequest)
@@ -68,9 +68,9 @@ describe('DeleteUserController', () => {
         // arrange
         const { deleteUserController, deleteUserUseCase } = makeSut()
 
-        jest.spyOn(deleteUserUseCase, 'execute').mockImplementationOnce(() => {
-            throw new Error()
-        })
+        jest.spyOn(deleteUserUseCase, 'execute').mockRejectedValueOnce(
+            new Error(),
+        )
         // act
         const result = await deleteUserController.execute(httpRequest)
 
