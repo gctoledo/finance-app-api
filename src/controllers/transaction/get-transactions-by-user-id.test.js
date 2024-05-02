@@ -94,4 +94,42 @@ describe('GetTransactionsByUserIdController', () => {
         //assert
         expect(result.statusCode).toBe(404)
     })
+
+    it('should return 404 when user is not found', async () => {
+        //arrange
+        const {
+            getTransactionsByUserIdController,
+            getTransactionsByUserIdUseCase,
+        } = makeSut()
+        jest.spyOn(
+            getTransactionsByUserIdUseCase,
+            'execute',
+        ).mockRejectedValueOnce(new UserNotFoundError())
+
+        //act
+        const result =
+            await getTransactionsByUserIdController.execute(httpRequest)
+
+        //assert
+        expect(result.statusCode).toBe(404)
+    })
+
+    it('should return 500 when GetTransactionsByUserIdUseCase throws', async () => {
+        //arrange
+        const {
+            getTransactionsByUserIdController,
+            getTransactionsByUserIdUseCase,
+        } = makeSut()
+        jest.spyOn(
+            getTransactionsByUserIdUseCase,
+            'execute',
+        ).mockRejectedValueOnce(new Error())
+
+        //act
+        const result =
+            await getTransactionsByUserIdController.execute(httpRequest)
+
+        //assert
+        expect(result.statusCode).toBe(500)
+    })
 })
