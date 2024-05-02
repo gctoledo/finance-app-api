@@ -3,14 +3,14 @@ import { EmailAlreadyInUseError } from '../../errors/user.js'
 import { faker } from '@faker-js/faker'
 
 describe('UpdateUserController', () => {
-    class UpdateUserUseCase {
+    class UpdateUserUseCaseStub {
         async execute(user) {
             return user
         }
     }
 
     const makeSut = () => {
-        const updateUserUseCase = new UpdateUserUseCase()
+        const updateUserUseCase = new UpdateUserUseCaseStub()
         const updateUserController = new UpdateUserController(updateUserUseCase)
 
         return { updateUserController, updateUserUseCase }
@@ -124,5 +124,20 @@ describe('UpdateUserController', () => {
 
         //assert
         expect(result.statusCode).toBe(400)
+    })
+
+    it('should call UpdateUserUseCase with correct params', async () => {
+        //arrange
+        const { updateUserController, updateUserUseCase } = makeSut()
+        const executeSpy = jest.spyOn(updateUserUseCase, 'execute')
+
+        //act
+        await updateUserController.execute(httpRequest)
+
+        //assert
+        expect(executeSpy).toHaveBeenCalledWith(
+            httpRequest.params.userId,
+            httpRequest.body,
+        )
     })
 })
