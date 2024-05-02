@@ -15,12 +15,12 @@ describe('GetUserByIdController', () => {
     }
 
     const makeSut = () => {
-        const getUserByIdUseCaseStub = new GetUserByIdUseCaseStub()
+        const getUserByIdUseCase = new GetUserByIdUseCaseStub()
         const getUserByIdController = new GetUserByIdController(
-            getUserByIdUseCaseStub,
+            getUserByIdUseCase,
         )
 
-        return { getUserByIdController, getUserByIdUseCaseStub }
+        return { getUserByIdController, getUserByIdUseCase }
     }
 
     const httpRequest = {
@@ -55,23 +55,21 @@ describe('GetUserByIdController', () => {
 
     it('should return 404 when user is not found', async () => {
         //arrange
-        const { getUserByIdController, getUserByIdUseCaseStub } = makeSut()
+        const { getUserByIdController, getUserByIdUseCase } = makeSut()
 
         //act
-        jest.spyOn(getUserByIdUseCaseStub, 'execute').mockResolvedValueOnce(
-            null,
-        )
+        jest.spyOn(getUserByIdUseCase, 'execute').mockResolvedValueOnce(null)
         const result = await getUserByIdController.execute(httpRequest)
 
         //assert
         expect(result.statusCode).toBe(404)
     })
 
-    it('should return 500 when GetUserBalanceUseCase throws', async () => {
+    it('should return 500 when GetUserByIdUseCase throws', async () => {
         //arrange
-        const { getUserByIdController, getUserByIdUseCaseStub } = makeSut()
+        const { getUserByIdController, getUserByIdUseCase } = makeSut()
 
-        jest.spyOn(getUserByIdUseCaseStub, 'execute').mockRejectedValueOnce(
+        jest.spyOn(getUserByIdUseCase, 'execute').mockRejectedValueOnce(
             new Error(),
         )
 
@@ -80,5 +78,17 @@ describe('GetUserByIdController', () => {
 
         //assert
         expect(result.statusCode).toBe(500)
+    })
+
+    it('should call GetUserByIdUseCase with correct params', async () => {
+        //arrange
+        const { getUserByIdController, getUserByIdUseCase } = makeSut()
+        const executeSpy = jest.spyOn(getUserByIdUseCase, 'execute')
+
+        //act
+        await getUserByIdController.execute(httpRequest)
+
+        //assert
+        expect(executeSpy).toHaveBeenCalledWith(httpRequest.params.userId)
     })
 })
