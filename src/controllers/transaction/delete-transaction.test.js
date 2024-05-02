@@ -68,4 +68,19 @@ describe('DeleteTransactionController', () => {
         //assert
         expect(result.statusCode).toBe(404)
     })
+
+    it('should return 500 when DeleteTransactionUseCase throws', async () => {
+        //arrange
+        const { deleteTransactionController, deleteTransactionUseCase } =
+            makeSut()
+        jest.spyOn(deleteTransactionUseCase, 'execute').mockRejectedValueOnce(
+            new Error(),
+        )
+
+        //act
+        const result = await deleteTransactionController.execute(httpRequest)
+
+        //assert
+        expect(result.statusCode).toBe(500)
+    })
 })
