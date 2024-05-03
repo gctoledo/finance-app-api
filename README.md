@@ -20,7 +20,7 @@ Usuário:
 
 -   Criação (POST)
 
--   Removação (DELETE)
+-   Remoção (DELETE)
 
 -   Atualização (PATCH)
 
