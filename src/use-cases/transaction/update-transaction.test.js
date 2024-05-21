@@ -60,4 +60,22 @@ describe('UpdateTransactionUseCase', () => {
             amount: transaction.amount,
         })
     })
+
+    it('should throw if UpdateTransactionRepository throws', async () => {
+        //arrange
+        const { updateTransactionUseCase, updateTransactionRepository } =
+            makeSut()
+        jest.spyOn(
+            updateTransactionRepository,
+            'execute',
+        ).mockRejectedValueOnce(new Error())
+
+        //act
+        const promise = updateTransactionUseCase.execute(transaction.id, {
+            amount: transaction.amount,
+        })
+
+        //assert
+        expect(promise).rejects.toThrow()
+    })
 })
