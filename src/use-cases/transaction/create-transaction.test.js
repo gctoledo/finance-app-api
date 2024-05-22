@@ -6,7 +6,7 @@ describe('CreateTransactionUseCase', () => {
     const createTransactionParams = { ...transaction, id: undefined }
 
     class CreateTransactionRepositoryStub {
-        async execute(transaction) {
+        async execute() {
             return transaction
         }
     }
@@ -53,7 +53,7 @@ describe('CreateTransactionUseCase', () => {
         )
 
         //assert
-        expect(result).toEqual({ ...createTransactionParams, id: 'random_id' })
+        expect(result).toEqual(transaction)
     })
 
     it('should call GetUserByIdRepository with correct params', async () => {
